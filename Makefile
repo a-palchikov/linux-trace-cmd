@@ -610,6 +610,18 @@ dist:
 PHONY += force
 force:
 
+BUILDDIR := _build
+
+.PNONY: docker
+docker: | $(BUILDDIR)
+	@docker buildx build \
+		--target releaser \
+		--output type=local,dest=$(BUILDDIR) \
+		.
+
+$(BUILDDIR):
+	@mkdir -p $@
+
 # Declare the contents of the .PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
 .PHONY: $(PHONY)
